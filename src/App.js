@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{useState} from 'react'
 
-function App() {
+function App(){
+  const [val, setVal] = useState('');
+
+  const get_data=()=>{
+    fetch('http://localhost:3003/web')
+    .then((res)=>res.json())
+    .then(res=>{
+      localStorage.setItem('data',JSON.stringify(res))
+      const stored=localStorage.getItem('data');
+      setVal(JSON.parse(stored));
+      
+    })
+  };
+   
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>데이터 가져오기</h1>
+      <button className='INU' onClick={get_data}>INU</button>
+      <pre>{val ? JSON.stringify(val, null, 2) : null}</pre>
+
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
